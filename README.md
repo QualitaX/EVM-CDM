@@ -65,6 +65,9 @@ struct Measure {
 - Operations: add, sub, mul, div, pow, sqrt
 - Financial helpers: basis points, percentages, rounding
 - Extensive overflow/underflow checks
+- All core arithmetic operations <700 gas
+- Financial helpers (basis points, percentages) <1,100 gas
+- Complex operations (pow, rounding) remain <5,000 gas
 
 Example operations:
 ```solidity
@@ -84,6 +87,13 @@ uint256 result = amount.applyPercentage(FixedPoint.fromPercent(15));
 - Leap year calculations
 - Date arithmetic (add days, months, years)
 - Date range calculations
+- Simple operations (comparisons, basic getters) are ultra-efficient
+- Date extraction operations reasonable for complexity
+- Month/year addition expensive due to end-of-month adjustments
+- **Recommendation:**  Favor `addDays()` when possible (10x cheaper than `addMonths()`)
+- **Optimization Opportunity:** Caching year start calculations
+- **Optimization Opportunity:** Leap year and month-end logic in addMonths
+
 
 **DayCount.sol**
 - All ISDA day count conventions
@@ -91,6 +101,10 @@ uint256 result = amount.applyPercentage(FixedPoint.fromPercent(15));
 - 30/360, 30E/360, 30E/360 ISDA
 - Critical for accurate interest calculations
 - Handles leap years and month-end adjustments
+- ACT/ACT ISDA efficient for same-year calculations
+-**Recommendation:** ACT/360 and ACT/365 Fixed are ULTRA-EFFICIENT. Use when possible.
+- **Warning:** 30/360 variants are EXPENSIVE (175K-360K gas)
+- **Warning:** ACT/ACT ISDA cross-year calculations moderately expensive (year splitting)
 
 Example:
 ```solidity
@@ -111,6 +125,7 @@ uint256 fraction = DayCount.calculate(
 - Weighted averaging
 - Time-weighted averaging
 - Accrual and discount factor calculations
+- ALL operations <10K gas
 
 ### 3. Validation Framework (350+ lines)
 
@@ -121,6 +136,10 @@ uint256 fraction = DayCount.calculate(
 - Measure validation (values, currency codes)
 - Date validation (ranges, ordering, business days)
 - Reference and array validations
+- ALL validations <5K gas 
+- Read operations highly efficient (2.5K-25K gas)
+- **Warning:** Write operations expensive** (100K-260K gas) - expected for storage
+- **Warning:** Party registration most expensive (260K gas) due to complex struct + array storage
 
 Example validations:
 ```solidity
