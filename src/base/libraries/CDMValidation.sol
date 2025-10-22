@@ -26,7 +26,7 @@ import {DateTime} from "./DateTime.sol";
  * - Validate ranges and constraints
  * - Ensure logical consistency (e.g., dates in order)
  *
- * @author QUalitaX Team
+ * @author QualitaX Team
  */
 library CDMValidation {
 
