@@ -26,7 +26,17 @@ contracts-evm/
 ├── script/                      # Deployment scripts
 └── docs/                        # Generated documentation
 ```
-## Implemented Components
+## Implemented Base Components
+
+Base components constitute the foundational layer for the entire CDM EVM framework.
+They cover:
+
+1. **Core Type System**: The mapping of CDM base types to gas-optimized Solidity structs
+2. **Mathematical Libraries**: Financial calculations (day count, compounding, fixed-point arithmetic)
+3. **Reference Data Registry**: Party, asset, and identifier management
+4. **Access Control**: Role-based permissions framework
+
+---------
 
 **Enums.sol**
 - 20+ enumeration types mapping CDM types to Solidity
