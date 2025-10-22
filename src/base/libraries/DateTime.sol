@@ -13,8 +13,7 @@ pragma solidity ^0.8.20;
  * - Does not handle all edge cases (e.g., time zones, leap seconds)
  * - For production, use battle-tested libraries
  *
- * @custom:security-contact security@finos.org
- * @author FINOS CDM EVM Framework Team
+ * @author QualitaX Team
  */
 library DateTime {
 
