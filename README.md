@@ -125,7 +125,7 @@ struct Measure {
 - Extensive overflow/underflow checks
 - All core arithmetic operations <700 gas
 - Financial helpers (basis points, percentages) <1,100 gas
-- Complex operations (pow, rounding) remain <5,000 gas
+- Complex operations (pow, rounding) <5,000 gas
 
 Example operations:
 ```solidity
@@ -263,7 +263,7 @@ function upgradeToAndCall(address newImplementation, bytes memory data) external
 - Deploys implementation and proxy
 - Initializes with admin roles
 - Grants operational roles
-- Supports multiple networks (testnet, mainnet)
+- Supports multiple networks
 
 ## Security
 
