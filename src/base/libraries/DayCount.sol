@@ -225,11 +225,11 @@ library DayCount {
      * @dev Formula: actual_days / (days_in_period * frequency)
      * @param startDate Start date
      * @param endDate End date
-     * @param terminationDate Termination date (not used in simplified version)
      * @param frequency Payment frequency per year (1, 2, 4, 12)
      * @return Day count fraction (fixed-point)
      *
      * @custom:example Semi-annual: frequency = 2, period = 182.5 days
+     * @custom:note terminationDate parameter omitted in simplified version
      */
     function calculateACTACTICMA(
         uint256 startDate,
@@ -377,13 +377,13 @@ library DayCount {
     /**
      * @notice Calculate year fraction from number of days
      * @dev Simple calculation assuming 365.25 days per year
-     * @param days Number of days
+     * @param numDays Number of days
      * @return Year fraction (fixed-point)
      */
-    function daysToYearFraction(uint256 days) internal pure returns (uint256) {
-        // days / 365.25
-        // = (days * 1e18 * 100) / 36525
-        return (days * FixedPoint.SCALE * 100) / 36525;
+    function daysToYearFraction(uint256 numDays) internal pure returns (uint256) {
+        // numDays / 365.25
+        // = (numDays * 1e18 * 100) / 36525
+        return (numDays * FixedPoint.SCALE * 100) / 36525;
     }
 
     /**

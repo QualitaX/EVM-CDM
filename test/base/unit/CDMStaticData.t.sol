@@ -6,11 +6,12 @@ import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.s
 
 import {CDMStaticData} from "../../../src/base/registry/CDMStaticData.sol";
 import {CDMRoles} from "../../../src/base/access/CDMRoles.sol";
-import {Party, PartyIdentifier, Identifier, CDMTypesLib} from "../../../src/base/types/CDMTypes.sol";
+import {Party, PartyIdentifier, Identifier} from "../../../src/base/types/CDMTypes.sol";
 import {
     PartyTypeEnum,
     PartyRoleEnum,
-    IdentifierTypeEnum
+    IdentifierTypeEnum,
+    PartyIdentifierTypeEnum
 } from "../../../src/base/types/Enums.sol";
 
 /**
@@ -19,7 +20,27 @@ import {
  * @dev Tests party, asset, and index registration with UUPS proxy
  */
 contract CDMStaticDataTest is Test {
-    using CDMTypesLib for *;
+
+    // =============================================================================
+    // EVENTS (Mirror from CDMStaticData for testing)
+    // =============================================================================
+
+    event PartyRegistered(
+        bytes32 indexed partyId,
+        address indexed account,
+        bytes32 nameHash,
+        uint256 identifierCount
+    );
+
+    event PartyUpdated(
+        bytes32 indexed partyId,
+        address indexed newAccount,
+        bytes32 newNameHash
+    );
+
+    event AssetRegistered(bytes32 indexed assetId, bytes32 identifierValue);
+
+    event IndexRegistered(bytes32 indexed indexId, bytes32 identifierValue);
 
     // =============================================================================
     // CONTRACTS
@@ -116,8 +137,8 @@ contract CDMStaticDataTest is Test {
         Party memory party = _createTestParty1();
 
         vm.prank(partyManager);
-        vm.expectEmit(true, true, false, true);
-        emit CDMStaticData.PartyRegistered(
+        vm.expectEmit(true, true, false, true, address(staticData));
+        emit PartyRegistered(
             PARTY_ID_1,
             partyAccount1,
             party.nameHash,
@@ -171,7 +192,7 @@ contract CDMStaticDataTest is Test {
         assertEq(retrieved.nameHash, party.nameHash, "Name hash should match");
     }
 
-    function test_GetParty_RevertsIfNotFound() public view {
+    function test_GetParty_RevertsIfNotFound() public {
         vm.expectRevert(CDMStaticData.CDMStaticData__PartyNotFound.selector);
         staticData.getParty(keccak256("NONEXISTENT"));
     }
@@ -186,7 +207,7 @@ contract CDMStaticDataTest is Test {
         assertEq(partyId, PARTY_ID_1, "Should return correct party ID");
     }
 
-    function test_GetPartyIdByAccount_ReturnsZeroIfNotFound() public view {
+    function test_GetPartyIdByAccount_ReturnsZeroIfNotFound() public {
         bytes32 partyId = staticData.getPartyIdByAccount(makeAddr("nonexistent"));
         assertEq(partyId, bytes32(0), "Should return zero for nonexistent account");
     }
@@ -200,8 +221,8 @@ contract CDMStaticDataTest is Test {
         address newAccount = makeAddr("newAccount");
         bytes32 newNameHash = keccak256("New Party Name");
 
-        vm.expectEmit(true, true, false, true);
-        emit CDMStaticData.PartyUpdated(PARTY_ID_1, newAccount, newNameHash);
+        vm.expectEmit(true, true, false, true, address(staticData));
+        emit PartyUpdated(PARTY_ID_1, newAccount, newNameHash);
 
         staticData.updateParty(PARTY_ID_1, newAccount, newNameHash);
         vm.stopPrank();
@@ -218,7 +239,8 @@ contract CDMStaticDataTest is Test {
     function test_RegisterAsset_Success() public {
         Identifier memory identifier = Identifier({
             value: keccak256("US0378331005"), // Apple Inc ISIN
-            idType: IdentifierTypeEnum.ISIN
+            identifierType: IdentifierTypeEnum.ISIN,
+            issuerScheme: bytes32(0)
         });
 
         vm.prank(assetManager);
@@ -231,12 +253,13 @@ contract CDMStaticDataTest is Test {
     function test_RegisterAsset_EmitsEvent() public {
         Identifier memory identifier = Identifier({
             value: keccak256("US0378331005"),
-            idType: IdentifierTypeEnum.ISIN
+            identifierType: IdentifierTypeEnum.ISIN,
+            issuerScheme: bytes32(0)
         });
 
         vm.prank(assetManager);
-        vm.expectEmit(true, false, false, true);
-        emit CDMStaticData.AssetRegistered(ASSET_ID_1, identifier.value);
+        vm.expectEmit(true, false, false, true, address(staticData));
+        emit AssetRegistered(ASSET_ID_1, identifier.value);
 
         staticData.registerAsset(ASSET_ID_1, identifier);
     }
@@ -244,7 +267,8 @@ contract CDMStaticDataTest is Test {
     function test_RegisterAsset_RevertsIfUnauthorized() public {
         Identifier memory identifier = Identifier({
             value: keccak256("US0378331005"),
-            idType: IdentifierTypeEnum.ISIN
+            identifierType: IdentifierTypeEnum.ISIN,
+            issuerScheme: bytes32(0)
         });
 
         vm.prank(unauthorized);
@@ -255,7 +279,8 @@ contract CDMStaticDataTest is Test {
     function test_RegisterAsset_RevertsIfDuplicate() public {
         Identifier memory identifier = Identifier({
             value: keccak256("US0378331005"),
-            idType: IdentifierTypeEnum.ISIN
+            identifierType: IdentifierTypeEnum.ISIN,
+            issuerScheme: bytes32(0)
         });
 
         vm.startPrank(assetManager);
@@ -269,7 +294,8 @@ contract CDMStaticDataTest is Test {
     function test_GetAsset_Success() public {
         Identifier memory identifier = Identifier({
             value: keccak256("US0378331005"),
-            idType: IdentifierTypeEnum.ISIN
+            identifierType: IdentifierTypeEnum.ISIN,
+            issuerScheme: bytes32(0)
         });
 
         vm.prank(assetManager);
@@ -277,7 +303,7 @@ contract CDMStaticDataTest is Test {
 
         Identifier memory retrieved = staticData.getAsset(ASSET_ID_1);
         assertEq(retrieved.value, identifier.value, "Identifier value should match");
-        assertEq(uint256(retrieved.idType), uint256(identifier.idType), "Identifier type should match");
+        assertEq(uint256(retrieved.identifierType), uint256(identifier.identifierType), "Identifier type should match");
     }
 
     // =============================================================================
@@ -287,7 +313,8 @@ contract CDMStaticDataTest is Test {
     function test_RegisterIndex_Success() public {
         Identifier memory identifier = Identifier({
             value: keccak256("USD-SOFR"),
-            idType: IdentifierTypeEnum.RIC
+            identifierType: IdentifierTypeEnum.RIC,
+            issuerScheme: bytes32(0)
         });
 
         vm.prank(indexManager);
@@ -300,12 +327,13 @@ contract CDMStaticDataTest is Test {
     function test_RegisterIndex_EmitsEvent() public {
         Identifier memory identifier = Identifier({
             value: keccak256("USD-SOFR"),
-            idType: IdentifierTypeEnum.RIC
+            identifierType: IdentifierTypeEnum.RIC,
+            issuerScheme: bytes32(0)
         });
 
         vm.prank(indexManager);
-        vm.expectEmit(true, false, false, true);
-        emit CDMStaticData.IndexRegistered(INDEX_ID_1, identifier.value);
+        vm.expectEmit(true, false, false, true, address(staticData));
+        emit IndexRegistered(INDEX_ID_1, identifier.value);
 
         staticData.registerIndex(INDEX_ID_1, identifier);
     }
@@ -349,9 +377,10 @@ contract CDMStaticDataTest is Test {
         identifiers[0] = PartyIdentifier({
             identifier: Identifier({
                 value: keccak256("5493001KJTIIGC8Y1R12"), // Sample LEI
-                idType: IdentifierTypeEnum.LEI
+                identifierType: IdentifierTypeEnum.LEI,
+                issuerScheme: bytes32(0)
             }),
-            meta: bytes32(0)
+            partyIdType: PartyIdentifierTypeEnum.LEI
         });
 
         return Party({
@@ -369,9 +398,10 @@ contract CDMStaticDataTest is Test {
         identifiers[0] = PartyIdentifier({
             identifier: Identifier({
                 value: keccak256("549300ABCDEFGHIJKLMN"), // Different LEI
-                idType: IdentifierTypeEnum.LEI
+                identifierType: IdentifierTypeEnum.LEI,
+                issuerScheme: bytes32(0)
             }),
-            meta: bytes32(0)
+            partyIdType: PartyIdentifierTypeEnum.LEI
         });
 
         return Party({
