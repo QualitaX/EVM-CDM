@@ -26,7 +26,7 @@ contracts-evm/
 ├── script/                      # Deployment scripts
 └── docs/                        # Generated documentation
 ```
-## Implemented Components
+## Implemented Base Components
 
 **Enums.sol**
 - 20+ enumeration types mapping CDM types to Solidity
