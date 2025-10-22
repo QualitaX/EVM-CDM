@@ -29,7 +29,7 @@ import {BusinessDayConventionEnum, BusinessCenterEnum} from "../types/Enums.sol"
  * - ISDA 2021 Definitions
  * - FpML BusinessDayConvention enumeration
  *
- * @author QUalitaX Team
+ * @author QualitaX Team
  */
 library BusinessDayAdjustments {
 
