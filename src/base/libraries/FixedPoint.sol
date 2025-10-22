@@ -427,7 +427,10 @@ library FixedPoint {
      * @custom:example applyPercentage(1000e18, 5e16) = 50e18 (5% of 1000 = 50)
      */
     function applyPercentage(uint256 value, uint256 percentage) internal pure returns (uint256) {
-        return mul(value, percentage) / ONE_PERCENT / 100;
+        // Use raw multiplication (not mul) because we want: value * percentage / ONE_PERCENT / 100
+        // If we used mul(), it would divide by SCALE which we don't want here
+        // value * percentage / ONE_PERCENT / 100 = (value * percentage) / (1e16 * 100)
+        return (value * percentage) / ONE_PERCENT / 100;
     }
 
     /**

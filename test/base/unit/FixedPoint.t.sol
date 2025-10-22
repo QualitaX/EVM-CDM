@@ -21,6 +21,22 @@ contract FixedPointTest is Test {
     uint256 constant QUARTER = 25e16;
 
     // =============================================================================
+    // WRAPPER FUNCTIONS (for testing reverts at proper call depth)
+    // =============================================================================
+
+    function _mulWrapper(uint256 a, uint256 b) internal pure returns (uint256) {
+        return FixedPoint.mul(a, b);
+    }
+
+    function _divWrapper(uint256 a, uint256 b) internal pure returns (uint256) {
+        return FixedPoint.div(a, b);
+    }
+
+    function _subWrapper(uint256 a, uint256 b) internal pure returns (uint256) {
+        return FixedPoint.sub(a, b);
+    }
+
+    // =============================================================================
     // MULTIPLICATION TESTS
     // =============================================================================
 
@@ -55,8 +71,18 @@ contract FixedPointTest is Test {
 
     function testMul_RevertOnOverflow() public {
         uint256 maxValue = type(uint256).max;
-        vm.expectRevert(FixedPoint.FixedPoint__Overflow.selector);
-        FixedPoint.mul(maxValue, TWO);
+        try this.externalMulWrapper(maxValue, TWO) {
+            fail("Expected revert");
+        } catch (bytes memory reason) {
+            // Verify the revert reason is FixedPoint__Overflow
+            bytes4 selector = bytes4(reason);
+            assertEq(selector, FixedPoint.FixedPoint__Overflow.selector, "Wrong error selector");
+        }
+    }
+
+    // External wrapper for testMul_RevertOnOverflow (must be external for try/catch)
+    function externalMulWrapper(uint256 a, uint256 b) external pure returns (uint256) {
+        return FixedPoint.mul(a, b);
     }
 
     // =============================================================================
@@ -87,8 +113,18 @@ contract FixedPointTest is Test {
     }
 
     function testDiv_RevertOnDivisionByZero() public {
-        vm.expectRevert(FixedPoint.FixedPoint__DivisionByZero.selector);
-        FixedPoint.div(ONE, 0);
+        try this.externalDivWrapper(ONE, 0) {
+            fail("Expected revert");
+        } catch (bytes memory reason) {
+            // Verify the revert reason is FixedPoint__DivisionByZero
+            bytes4 selector = bytes4(reason);
+            assertEq(selector, FixedPoint.FixedPoint__DivisionByZero.selector, "Wrong error selector");
+        }
+    }
+
+    // External wrapper for testDiv_RevertOnDivisionByZero (must be external for try/catch)
+    function externalDivWrapper(uint256 a, uint256 b) external pure returns (uint256) {
+        return FixedPoint.div(a, b);
     }
 
     function testDiv_LargeDenominator() public {
@@ -131,8 +167,18 @@ contract FixedPointTest is Test {
     }
 
     function testSub_RevertOnUnderflow() public {
-        vm.expectRevert(FixedPoint.FixedPoint__Underflow.selector);
-        FixedPoint.sub(TWO, THREE);
+        try this.externalSubWrapper(TWO, THREE) {
+            fail("Expected revert");
+        } catch (bytes memory reason) {
+            // Verify the revert reason is FixedPoint__Underflow
+            bytes4 selector = bytes4(reason);
+            assertEq(selector, FixedPoint.FixedPoint__Underflow.selector, "Wrong error selector");
+        }
+    }
+
+    // External wrapper for testSub_RevertOnUnderflow (must be external for try/catch)
+    function externalSubWrapper(uint256 a, uint256 b) external pure returns (uint256) {
+        return FixedPoint.sub(a, b);
     }
 
     // =============================================================================
