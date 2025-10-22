@@ -42,7 +42,7 @@ contracts-evm/
 
 Base components constitute the foundational layer for the entire CDM EVM framework.
 
-### Dependency Graph
+#### Dependency Graph
 
 ```
 ┌─────────────────────────────────────────────────────────────┐

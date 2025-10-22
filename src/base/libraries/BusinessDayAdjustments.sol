@@ -300,12 +300,13 @@ library BusinessDayAdjustments {
      * @return true if Saturday or Sunday
      */
     function isWeekend(uint256 date) internal pure returns (bool) {
-        // Unix epoch (Jan 1, 1970) was a Thursday (day 4)
-        // 0 = Thursday, 1 = Friday, 2 = Saturday, 3 = Sunday, 4 = Monday, 5 = Tuesday, 6 = Wednesday
+        // Unix epoch (Jan 1, 1970) was a Thursday
+        // Formula: (days_since_epoch + 4) % 7 gives day of week
+        // 0 = Sunday, 1 = Monday, 2 = Tuesday, 3 = Wednesday, 4 = Thursday, 5 = Friday, 6 = Saturday
         uint256 dayOfWeek = ((date / SECONDS_PER_DAY) + 4) % 7;
 
-        // Saturday = 2, Sunday = 3
-        return (dayOfWeek == 2 || dayOfWeek == 3);
+        // Saturday = 6, Sunday = 0
+        return (dayOfWeek == 6 || dayOfWeek == 0);
     }
 
     /**
@@ -315,18 +316,13 @@ library BusinessDayAdjustments {
      * @return Day of week (0-6)
      */
     function getDayOfWeek(uint256 date) internal pure returns (uint256) {
-        // Unix epoch (Jan 1, 1970) was a Thursday
-        // Adjust to ISO 8601 (Monday = 0)
+        // Calculate day of week where 0=Sunday, 1=Monday, ..., 6=Saturday
         uint256 unixDayOfWeek = ((date / SECONDS_PER_DAY) + 4) % 7;
 
-        // Convert: Unix Thursday=0 -> ISO Monday=0
-        // Unix: 0=Thu, 1=Fri, 2=Sat, 3=Sun, 4=Mon, 5=Tue, 6=Wed
+        // Convert to ISO 8601: 0=Monday, 1=Tuesday, ..., 6=Sunday
+        // Unix: 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
         // ISO:  0=Mon, 1=Tue, 2=Wed, 3=Thu, 4=Fri, 5=Sat, 6=Sun
-        if (unixDayOfWeek >= 4) {
-            return unixDayOfWeek - 4; // Mon=0, Tue=1, Wed=2
-        } else {
-            return unixDayOfWeek + 3; // Thu=3, Fri=4, Sat=5, Sun=6
-        }
+        return (unixDayOfWeek + 6) % 7;
     }
 
     /**
