@@ -102,7 +102,7 @@ uint256 result = amount.applyPercentage(FixedPoint.fromPercent(15));
 - Critical for accurate interest calculations
 - Handles leap years and month-end adjustments
 - ACT/ACT ISDA efficient for same-year calculations
--**Recommendation:** ACT/360 and ACT/365 Fixed are ULTRA-EFFICIENT. Use when possible.
+- **Recommendation:** ACT/360 and ACT/365 Fixed are ULTRA-EFFICIENT. Use when possible.
 - **Warning:** 30/360 variants are EXPENSIVE (175K-360K gas)
 - **Warning:** ACT/ACT ISDA cross-year calculations moderately expensive (year splitting)
 
