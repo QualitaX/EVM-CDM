@@ -338,10 +338,10 @@ library CDMValidation {
     /**
      * @notice Validate reference is not empty
      * @dev Reference must have at least global key
-     * @param reference Reference (bytes32) to validate
+     * @param ref Reference (bytes32) to validate
      */
-    function validateReference(bytes32 reference) internal pure {
-        if (reference == bytes32(0)) {
+    function validateReference(bytes32 ref) internal pure {
+        if (ref == bytes32(0)) {
             revert CDMValidation__ReferenceEmpty();
         }
     }
@@ -429,11 +429,11 @@ library CDMValidation {
 
     /**
      * @notice Check if reference is empty
-     * @param reference Reference to check
+     * @param ref Reference to check
      * @return true if empty
      */
-    function isEmptyReference(bytes32 reference) internal pure returns (bool) {
-        return reference == bytes32(0);
+    function isEmptyReference(bytes32 ref) internal pure returns (bool) {
+        return ref == bytes32(0);
     }
 
     /**

@@ -207,8 +207,19 @@ contract CDMStaticData is
             }
         }
 
-        // Store party
-        _parties[party.partyId] = party;
+        // Store party (manual copy due to dynamic array)
+        Party storage storedParty = _parties[party.partyId];
+        storedParty.partyId = party.partyId;
+        storedParty.account = party.account;
+        storedParty.partyType = party.partyType;
+        storedParty.nameHash = party.nameHash;
+        storedParty.metaKey = party.metaKey;
+
+        // Copy identifiers array
+        for (uint256 i = 0; i < party.identifiers.length; i++) {
+            storedParty.identifiers.push(party.identifiers[i]);
+        }
+
         _partyExists[party.partyId] = true;
         _allPartyIds.push(party.partyId);
 

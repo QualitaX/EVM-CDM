@@ -226,28 +226,28 @@ library CompoundingLib {
      * @notice Calculate time-weighted average rate
      * @dev Each rate is weighted by its time period
      * @param rates Array of rates (fixed-point)
-     * @param days Array of days for each rate
+     * @param daysCounts Array of days for each rate
      * @return Time-weighted average rate (fixed-point)
      *
-     * @custom:example rates = [0.05e18, 0.06e18], days = [10, 20]
+     * @custom:example rates = [0.05e18, 0.06e18], daysCounts = [10, 20]
      * @custom:explanation => (0.05*10 + 0.06*20) / 30 = (0.5 + 1.2) / 30 = 0.0567
      */
     function timeWeightedAverage(
         uint256[] memory rates,
-        uint256[] memory days
+        uint256[] memory daysCounts
     ) internal pure returns (uint256) {
         // Validate input
         if (rates.length == 0) {
             revert CompoundingLib__EmptyRatesArray();
         }
-        if (rates.length != days.length) {
+        if (rates.length != daysCounts.length) {
             revert CompoundingLib__ArrayLengthMismatch();
         }
 
         // Calculate total days
         uint256 totalDays = 0;
-        for (uint256 i = 0; i < days.length; i++) {
-            totalDays += days[i];
+        for (uint256 i = 0; i < daysCounts.length; i++) {
+            totalDays += daysCounts[i];
         }
 
         if (totalDays == 0) {
@@ -257,8 +257,8 @@ library CompoundingLib {
         // Calculate weighted sum
         uint256 sum = 0;
         for (uint256 i = 0; i < rates.length; i++) {
-            // rate * days (in fixed-point)
-            uint256 weightedRate = rates[i].mul(FixedPoint.fromUint(days[i]));
+            // rate * daysCounts (in fixed-point)
+            uint256 weightedRate = rates[i].mul(FixedPoint.fromUint(daysCounts[i]));
             sum = sum.add(weightedRate);
         }
 
