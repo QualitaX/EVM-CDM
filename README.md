@@ -215,7 +215,7 @@ function upgradeToAndCall(address newImplementation, bytes memory data) external
 - Deploys implementation and proxy
 - Initializes with admin roles
 - Grants operational roles
-- Supports multiple networks (testnet, mainnet)
+- Supports multiple networks
 
 ## Security
 
