@@ -29,6 +29,7 @@ contracts-evm/
 
 ## A layered Approach
 
+<img width="949" height="1028" alt="image" src="https://github.com/user-attachments/assets/61aa5fd1-000a-4d79-aeb8-ab2bfc953143" />
 
 
 ## Implemented Components
