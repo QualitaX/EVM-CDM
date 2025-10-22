@@ -30,8 +30,7 @@ import {CDMValidation} from "../libraries/CDMValidation.sol";
  * - Emits events for all state changes
  * - Optimized storage layout for gas efficiency
  *
- * @custom:security-contact security@finos.org
- * @author FINOS CDM EVM Framework Team
+ * @author QualitaX Team
  */
 contract CDMStaticData is
     Initializable,
