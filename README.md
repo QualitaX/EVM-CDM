@@ -29,7 +29,7 @@ contracts-evm/
 ## Implemented Base Components
 
 Base components constitute the foundational layer for the entire CDM EVM framework.
-They cover:
+They include:
 
 1. **Core Type System**: The mapping of CDM base types to gas-optimized Solidity structs
 2. **Mathematical Libraries**: Financial calculations (day count, compounding, fixed-point arithmetic)
