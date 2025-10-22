@@ -27,9 +27,38 @@ contracts-evm/
 └── docs/                        # Generated documentation
 ```
 
-## A layered Approach
+## A Smart-Contract Architecture layered Approach
 
-<img width="449" height="528" alt="image" src="https://github.com/user-attachments/assets/61aa5fd1-000a-4d79-aeb8-ab2bfc953143" />
+### Legal Agreement Layer
+```
+├─ AgreementRegistry.sol - Master agreement tracking
+├─ CSA.sol - Credit Support Annex (netting, collateral)
+├─ ISDAMasterAgreement.sol - ISDA terms
+└─ Confirmation.sol - Trade confirmations
+```
+
+### Lifecycle Events Layer
+```
+├─ TradeState.sol
+├─ Event.sol
+├─ ExecutionEvent.sol
+├─ ResetEvent.sol
+├─ TransferEvent.sol
+└─ TerminationEvent.sol
+```
+
+### Product Layer
+```
+├─ InterestRatePayout.sol
+├─ InterestRateSwap.sol
+└─ NonDeliverableForward.sol
+```
+
+### Base Types Layer
+```
+├─ Party.sol, Identifier.sol, etc.
+└─ etc.
+```
 
 
 ## Implemented Components
