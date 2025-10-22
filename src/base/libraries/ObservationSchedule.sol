@@ -43,8 +43,7 @@ import {
  * - ISDA 2006 Definitions (Floating Rate Option)
  * - ARRC SOFR Best Practices
  *
- * @custom:security-contact security@finos.org
- * @author FINOS CDM EVM Framework Team
+ * @author QualitaX Team
  */
 library ObservationSchedule {
 
