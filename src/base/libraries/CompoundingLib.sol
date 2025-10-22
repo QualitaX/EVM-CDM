@@ -20,8 +20,7 @@ import {FixedPoint} from "./FixedPoint.sol";
  * - OpenGamma Strata (reference implementation)
  * - Market conventions for floating rate calculations
  *
- * @custom:security-contact security@finos.org
- * @author FINOS CDM EVM Framework Team
+ * @author QualitaX Team
  */
 library CompoundingLib {
 

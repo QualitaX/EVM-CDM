@@ -34,8 +34,7 @@ import {
  * - This aligns with CDM's immutability principle
  * - State transitions create new instances rather than modifying existing
  *
- * @custom:security-contact security@finos.org
- * @author FINOS CDM EVM Framework Team
+ * @author QualitaX Team
  */
 
 // =============================================================================

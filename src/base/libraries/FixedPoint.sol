@@ -20,8 +20,7 @@ import {RoundingDirectionEnum} from "../types/Enums.sol";
  * - Uses Solidity 0.8+ built-in checks
  * - Additional validation for division by zero
  *
- * @custom:security-contact security@finos.org
- * @author FINOS CDM EVM Framework Team
+ * @author QualitaX Team
  */
 library FixedPoint {
 

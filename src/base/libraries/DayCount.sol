@@ -27,8 +27,7 @@ import {DateTime} from "./DateTime.sol";
  * - ICMA Rule Book
  * - OpenGamma Strata (reference implementation)
  *
- * @custom:security-contact security@finos.org
- * @author FINOS CDM EVM Framework Team
+ * @author QualitaX Team
  */
 library DayCount {
 

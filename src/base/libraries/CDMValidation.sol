@@ -26,8 +26,7 @@ import {DateTime} from "./DateTime.sol";
  * - Validate ranges and constraints
  * - Ensure logical consistency (e.g., dates in order)
  *
- * @custom:security-contact security@finos.org
- * @author FINOS CDM EVM Framework Team
+ * @author QualitaX Team
  */
 library CDMValidation {
 

@@ -45,8 +45,7 @@ import {
  * - Market conventions for rounding
  * - Standard settlement practices
  *
- * @custom:security-contact security@finos.org
- * @author FINOS CDM EVM Framework Team
+ * @author QualitaX Team
  */
 library Cashflow {
 
