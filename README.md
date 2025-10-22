@@ -29,12 +29,14 @@ contracts-evm/
 ## Implemented Base Components
 
 Base components constitute the foundational layer for the entire CDM EVM framework.
-So far they include:
+So far, they include:
 
-1. **Core Type System**: The mapping of CDM base types to gas-optimized Solidity structs
-2. **Mathematical Libraries**: Financial calculations (day count, compounding, fixed-point arithmetic)
-3. **Reference Data Registry**: Party, asset, and identifier management
-4. **Access Control**: Role-based permissions framework
+1. **Core Type System**: The mapping of CDM base types to gas-optimized Solidity structs (CDMTypes, Enums)
+2. **Mathematical Libraries**: Fixed-point arithmetic (FixedPoint), day count conventions (DayCount), interest rate compounding (CompoundingLib), and temporal utilities (DateTime)
+3. **Product Primitives**: Interest rate calculations (InterestRate), calculation period generation (Schedule), ISDA business day conventions (BusinessDayAdjustments), rate observation schedules (ObservationSchedule), and payment calculations (Cashflow)
+4. **Reference Data Registry**: Party, asset, and identifier management (CDMStaticData)
+5. **Validation Layer**: Data structure validation and conditional logic enforcement (CDMValidation)
+6. **Access Control**: Role-based permissions framework
 
 ---------
 
