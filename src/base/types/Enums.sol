@@ -7,8 +7,7 @@ pragma solidity ^0.8.20;
  * @dev Central location for all enumerations used across the CDM framework
  * @dev Maps to CDM enumeration definitions from Rosetta DSL
  *
- * @custom:security-contact security@finos.org
- * @author FINOS CDM EVM Framework Team
+ * @author QualitaX Team
  */
 
 // =============================================================================
