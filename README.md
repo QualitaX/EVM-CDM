@@ -1,4 +1,4 @@
-# FINOS CDM EVM Framework - Smart Contracts
+# CDM EVM Framework - Smart Contracts
 
 A proposed EVM-based implementation of the FINOS Common Domain Model for EVM-based blockchain deployment.
 
