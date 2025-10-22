@@ -29,42 +29,6 @@ contracts-evm/
 
 ## A layered Approach
 
-────────────────────────────────────────────────────────────┐
-  │ Layer 5: Legal Agreement Layer                           │
-  │ ├─ AgreementRegistry.sol - Master agreement tracking     │
-  │ ├─ CSA.sol - Credit Support Annex (netting, collateral)  │
-  │ ├─ ISDAMasterAgreement.sol - ISDA terms                  │
-  │ └─ Confirmation.sol - Trade confirmations                │
-  └──────────────────────────────────────────────────────────┘
-                            ↓ uses
-  ┌──────────────────────────────────────────────────────────┐
-  │ Layer 4: Portfolio/Netting Layer  (optional)             │
-  │ ├─ Portfolio.sol - Trade grouping                        │
-  │ ├─ NettingEngine.sol - Multi-trade netting               │                      │
-  └──────────────────────────────────────────────────────────┘
-                            ↓ uses
-  ┌──────────────────────────────────────────────────────────┐
-  │ Layer 3: Lifecycle Events Layer                          │
-  │ ├─ TradeState.sol                                        │
-  │ ├─ Event.sol                                             │
-  │ ├─ ExecutionEvent.sol                                    │
-  │ ├─ ResetEvent.sol                                        │
-  │ ├─ TransferEvent.sol                                     │
-  │ └─ TerminationEvent.sol                                  │
-  └──────────────────────────────────────────────────────────┘
-                            ↓ uses
-  ┌──────────────────────────────────────────────────────────┐
-  │ Layer 2: Product Layer                                   │
-  │ ├─ InterestRatePayout.sol                                │
-  │ ├─ InterestRateSwap.sol                                  │
-  │ └─ NonDeliverableForward.sol                             │
-  └──────────────────────────────────────────────────────────┘
-                            ↓ uses
-  ┌───────────────────────────────────────────────────────────┐
-  │ Layer 1: Base Types Layer                                 │
-  │ ├─ Party.sol, Identifier.sol, etc.                        │
-  └───────────────────────────────────────────────────────────┘
-
 
 
 ## Implemented Components
