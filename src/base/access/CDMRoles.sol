@@ -14,8 +14,7 @@ pragma solidity ^0.8.20;
  * - Oracle roles: Price feed management
  * - Reporting roles: Regulatory reporting
  *
- * @custom:security-contact security@finos.org
- * @author FINOS CDM EVM Framework Team
+ * @author QualitaX Team
  */
 library CDMRoles {
 
