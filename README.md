@@ -26,10 +26,8 @@ contracts-evm/
 ├── script/                      # Deployment scripts
 └── docs/                        # Generated documentation
 ```
-## Implemented Base Components
 
-Base components constitute the foundational layer for the entire CDM EVM framework.
-So far, they include:
+## Implemented Components
 
 1. **Core Type System**: The mapping of CDM base types to gas-optimized Solidity structs (CDMTypes, Enums)
 2. **Mathematical Libraries**: Fixed-point arithmetic (FixedPoint), day count conventions (DayCount), interest rate compounding (CompoundingLib), and temporal utilities (DateTime)
@@ -38,7 +36,55 @@ So far, they include:
 5. **Validation Layer**: Data structure validation and conditional logic enforcement (CDMValidation)
 6. **Access Control**: Role-based permissions framework
 
+
+### Base Components
 ---------
+
+Base components constitute the foundational layer for the entire CDM EVM framework.
+
+### Dependency Graph
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      Layer 1: Base                          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌──────────────┐         ┌──────────────┐                  │
+│  │ Enums.sol    │◄────────│ CDMTypes.sol │                  │
+│  └──────────────┘         └──────┬───────┘                  │
+│                                   │                         │
+│                    ┌──────────────┼──────────────┐           │
+│                    │              │              │           │
+│              ┌─────▼─────┐  ┌────▼────┐  ┌──────▼──────┐    │
+│              │PartyTypes │  │DateTime │  │  MathTypes  │     │
+│              │   .sol    │  │Types.sol│  │    .sol     │     │
+│              └─────┬─────┘  └────┬────┘  └──────┬──────┘     │
+│                    │              │              │           │
+│                    └──────────────┼──────────────┘           │
+│                                   │                           │
+│              ┌────────────────────▼────────────────┐          │
+│              │      CDMMath.sol (library)          │          │
+│              │  ┌──────────┐ ┌─────────────────┐  │           │
+│              │  │DayCount  │ │  FixedPoint.sol │  │           │
+│              │  │  .sol    │ │                 │  │           │
+│              │  └──────────┘ └─────────────────┘  │           │
+│              └────────────────┬────────────────────┘          │
+│                               │                               │
+│              ┌────────────────▼────────────────┐              │
+│              │   CDMStaticData.sol (registry)  │              │
+│              │  ┌──────────┐ ┌─────────────┐  │               │
+│              │  │ Party    │ │    Asset    │  │               │
+│              │  │Registry  │ │  Registry   │  │               │
+│              │  └──────────┘ └─────────────┘  │               │
+│              └────────────────┬────────────────┘              │
+│                               │                               │
+│              ┌────────────────▼────────────────┐              │
+│              │   CDMAccessControl.sol          │              │
+│              │   (OpenZeppelin RBAC)           │              │
+│              └─────────────────────────────────┘              │
+│                                                               │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **Enums.sol**
 - 20+ enumeration types mapping CDM types to Solidity
