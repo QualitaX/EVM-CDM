@@ -36,9 +36,9 @@ contracts-evm/
 5. **Validation Layer**: Data structure validation and conditional logic enforcement (CDMValidation)
 6. **Access Control**: Role-based permissions framework
 
+---------
 
 ### Base Components
----------
 
 Base components constitute the foundational layer for the entire CDM EVM framework.
 
