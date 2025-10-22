@@ -139,7 +139,7 @@ uint256 fraction = DayCount.calculate(
 - Accrual and discount factor calculations
 - ALL operations <10K gas
 
-### 3. Validation Framework (350+ lines)
+### 3. Validation Framework
 
 **CDMValidation.sol**
 - Comprehensive validation for all CDM types
